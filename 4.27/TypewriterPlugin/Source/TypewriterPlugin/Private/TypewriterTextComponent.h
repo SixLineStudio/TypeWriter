@@ -16,12 +16,6 @@ public:
 	// Sets default values for this component's properties
 	UTypewriterTextComponent();
 
-
-
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
 private:
 
 	UPROPERTY()
@@ -71,9 +65,6 @@ private:
 	
     
 public:
-
-	// Called every frame
-    virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION()
 	void StartTypewriting(const FText InText, UTextBlock*InTextBlock,const float InCharsPerSec,

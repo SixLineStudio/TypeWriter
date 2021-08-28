@@ -14,26 +14,7 @@ UTypewriterTextComponent::UTypewriterTextComponent():isActiveWriting(false),Acce
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
-}
-
-
-// Called when the game starts
-void UTypewriterTextComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
-}
-
-
-// Called every frame
-void UTypewriterTextComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
@@ -66,7 +47,6 @@ void UTypewriterTextComponent::StartTypewriting(const FText InText,UTextBlock*In
 		return;
 	}
 	StartTimer();
-   
 }
 
 
@@ -79,18 +59,17 @@ void UTypewriterTextComponent::PrintText()
 		if(IsValid(RichText)) RichText->SetText(UKismetTextLibrary::Conv_StringToText(LeftString.Append(FString(TEXT("<I>")))
 			.Append(ChachedString.RightChop(CharNum+1).Left(Acurracy)).Append(FString(TEXT("</>")))));
 	   
-	    }else{
-	    	
+	    }else
+	    	{	
 	    	if(IsValid(TextBlock)) TextBlock->SetText(UKismetTextLibrary::Conv_StringToText(LeftString));
-
 	    	else StopTimer(false,true);
-	    }
+	        }
 		CharNum++;
 		if(CharNum>Len) StopTimer(false,true);
 	    else if(PunctuationDel>0.0f && LastChar =="!" || LastChar=="." || LastChar=="," || LastChar=="?")
 		  {
-		  	  StopTimer(true,false);
-		      PunctuationDelay();
+		   StopTimer(true,false);
+		   PunctuationDelay();
 		  }
 }
 
@@ -110,8 +89,8 @@ void UTypewriterTextComponent::StartTimer()
 	{
 		if(AudioComponent->bIsPaused)
 		{
-			AudioComponent->SetPaused(false);
-			return;
+		AudioComponent->SetPaused(false);
+		return;
 		}
 	}
 	if(Sound!=nullptr) AudioComponent=UGameplayStatics::SpawnSound2D(this,Sound,1.f,1.f,
@@ -126,8 +105,8 @@ void UTypewriterTextComponent::StopTimer(bool Pause,bool Destroy)
 	{
         if(Destroy)
         {
-        	AudioComponent->Deactivate();
-	        return;
+        AudioComponent->Deactivate();
+	    return;
         }
 	if(AudioComponent->IsActive())
 			AudioComponent->SetPaused(Pause);
@@ -153,11 +132,11 @@ void UTypewriterTextComponent::StopPrinting(float InAcceleration)
     
 	if(!isRichText)
 	{
-	if(IsValid(TextBlock)) TextBlock->SetText(Text);
+	    if(IsValid(TextBlock)) TextBlock->SetText(Text);
 	} 
 	else
 	{
-	if(IsValid(RichText)) RichText->SetText(Text);
+	    if(IsValid(RichText)) RichText->SetText(Text);
 	}
 
 }

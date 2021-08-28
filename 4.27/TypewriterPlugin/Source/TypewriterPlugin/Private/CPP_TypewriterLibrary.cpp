@@ -70,6 +70,5 @@ void UCPP_TypewriterLibrary::PrintRichText(UObject* Object, const FText Text, co
 			}
 		}
 	}
-	
 }
 
